@@ -35,66 +35,44 @@ Use the `hardhat` CLI to [run a local node](https://hardhat.org/hardhat-runner/d
 npx hardhat node
 ```
 
-### Deploy smart contracts to the local node
+### Deploy the smart contracts
 
-Use the `hardhat` CLI to [deploy the smart contracts](https://hardhat.org/hardhat-runner/docs/guides/deploying) to the local node.
+Use the [CLI](https://portal.thirdweb.com/cli) to deploy the smart contracts to the local node via the [dashboard](https://portal.thirdweb.com/dashboard).
 
 ```bash
 # From within the /contracts directory
-npx hardhat run scripts/deploy.js --network localhost
+npx thirdweb deploy
 ```
 
-Running this script will print out the addresses of the deployed contracts to the console.
+This command compiles your contract and produces a link to the [dashboard](https://portal.thirdweb.com/dashboard) where you can deploy the contract to a local node.
 
-### Import contracts to the dashboard
+Use the `Request testnet funds` button to load your wallet with some funds to deploy the contract.
 
-From the [dashboard](https://thirdweb.com/dashboard), first add the `Localhost` chain to your settings.
+![request-funds.png](./application/public/readme_assets/request-funds.png)
 
-First, connect your wallet and click `Configure networks`.
+Ensure to select the `Localhost (ETH)` network and click on the `Deploy` button!
 
-![Configure networks](./application/public/readme_assets/Localhost.png)
+![deploy.png](./application/public/readme_assets/deploy.png)
 
-Search "Localhost" and click on the `Localhost` chain.
+Once deployed, copy your contract address from the dashboard:
 
-![Add Localhost chain](./application/public/readme_assets/AddLocalhost.png)
+![copy-address.png](./application/public/readme_assets/copy-address.png)
 
-Click `Add Network`.
+Paste it in the `application/pages/index.tsx` file, within the `useContract` hook.
 
-![Add network](./application/public/readme_assets/Addnetwork.png)
-
-Close the modal now and paste your contract address into the search bar.
-
-Click the result on `Localhost`.
-
-![Paste address](./application/public/readme_assets/addgif.gif)
-
-Then, import the contracts to the dashboard using the `thirdweb` CLI.
-
-That's it! You can now interact with your smart contracts from the dashboard and the React application.
-
-### Interact with the smart contracts
-
-Use the [React SDK](https://portal.thirdweb.com/react) to interact with them from within the `application` directory; which is a Next.js application.
-
-In the `_app.tsx` file, wrap the application with the `ThirdwebProvider` component and set the `activeChain` prop to `Localhost`.
-
-```tsx
-// application/pages/_app.tsx
-function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <ThirdwebProvider activeChain={Localhost}>
-      <Component {...pageProps} />
-    </ThirdwebProvider>
+```jsx
+const Home: NextPage = () => {
+  const { contract, isLoading, error } = useContract(
+    // Your contract address here!
+    "0x..."
   );
-}
 
-export default MyApp;
+  return <div className={styles.container}></div>;
+};
+
+export default Home;
 ```
 
-Now, you can use the `useContract` hook to interact with the smart contracts, as you can see on the `index.tsx` file.
+## Join our Discord!
 
-```tsx
-const { contract, isLoading, error } = useContract(
-  "0x5FbDB2315678afecb367f032d93F642f64180aa3"
-);
-```
+For any questions, suggestions, join our discord at [https://discord.gg/thirdweb](https://discord.gg/thirdweb).
