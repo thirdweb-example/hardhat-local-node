@@ -66,8 +66,6 @@ const Home: NextPage = () => {
     // Your contract address here!
     "0x..."
   );
-
-  return <div className={styles.container}></div>;
 };
 
 export default Home;

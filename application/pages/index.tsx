@@ -1,12 +1,19 @@
 import type { NextPage } from "next";
-import { ConnectWallet, useContract } from "@thirdweb-dev/react";
+import {
+  ConnectWallet,
+  useContract,
+  useContractRead,
+} from "@thirdweb-dev/react";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
   // Connect to your contract here!
-  const { contract, isLoading, error } = useContract(
-    "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+  const { contract } = useContract(
+    "0x54167074340e95D15a39Cce02A5950386AD9600D"
   );
+
+  // Now you can read and write to your contract, from the connected wallet.
+  const { data, isLoading, error } = useContractRead(contract, "greet");
 
   return (
     <div className={styles.container}>
@@ -16,9 +23,10 @@ const Home: NextPage = () => {
         </h1>
 
         <p className={styles.description}>
-          Get started by configuring your desired network in{" "}
-          <code className={styles.code}>pages/_app.tsx</code>, then modify the{" "}
-          <code className={styles.code}>pages/index.tsx</code> file!
+          Your contract greeting:{" "}
+          <strong>
+            {isLoading ? "loading..." : error ? error.message : data}
+          </strong>
         </p>
 
         <div className={styles.connect}>
